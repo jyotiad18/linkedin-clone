@@ -9,10 +9,15 @@ import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import Post from './Post';
 import { db } from './firebase';
 import firebase from 'firebase';
+import { selectUser } from './features/userSlice';
+import { useSelector } from 'react-redux';
+import FilpMove from 'react-flip-move';
 
 function Feed() {
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState([]);
+
+	const user = useSelector(selectUser);
 
 	useEffect(() => {
 		db.collection("posts")
@@ -29,7 +34,7 @@ function Feed() {
 		e.preventDefault();
 
 		db.collection("posts").add({
-			name: 'Jyoti ADHIKARI',
+			name: user.displayName,
 			description: 'this is a test',
 			message: input,
 			photoUrl: '',
@@ -59,18 +64,21 @@ function Feed() {
 					<InputOption Icon={CalendarTodayIcon} title='Write article'
 						color='#7FC15E' />
 				</div>
-			</div>
-			{
-				posts.map(({id, data: {name, description, message, photoUrl, timestamp} }) => (
-					<Post
-						key={id}
-						name={name}
-						description={description}
-						message={message}
-						photoUrl={photoUrl}
-					/>
-				))
-			}			
+			</div>			
+				<FilpMove>
+				{
+					posts.map(({id, data: {name, description, message, photoUrl, timestamp} }) => (
+						<Post
+							key={id}
+							name={name}
+							description={description}
+							message={message}
+							photoUrl={photoUrl}
+						/>
+					))
+				}
+				</FilpMove>				
+				
 		</div>
 	)
 }

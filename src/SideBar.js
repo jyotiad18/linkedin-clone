@@ -1,8 +1,12 @@
 import React from 'react'
 import './SideBar.css';
 import Avatar from '@material-ui/core/Avatar';
+import { selectUser } from './features/userSlice';
+import { useSelector } from 'react-redux';
 
 function SideBar() {
+	const user = useSelector(selectUser);
+
 	const recentItem = (topic) => (
 		<div className="sidebar__recentItem">
 			<span className="sidebar__hash">#</span>
@@ -14,9 +18,11 @@ function SideBar() {
 		<div className="sidebar">
 			<div className="sidebar__top">
 				<img src="https://dl.airtable.com/.attachments/a0cd0702c443f31526267f38ea5314a1/2447eb7a/paris.jpg" alt="" />
-				<Avatar className="sidebar__avatar" />
-				<h2>Jyoti ADHIKARI</h2>
-				<h4>JyotiAdhikari@gmail.com</h4>
+				<Avatar src="" className="sidebar__avatar">
+					{user.email[0].toUpperCase()}
+				</Avatar>
+				<h2>{user.displayName}</h2>
+				<h4>{user.email}</h4>
 			</div>
 			<div className="sidebar__stats">
 				<div className="sidebar__stat">
